@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
   const cardContainer = document.getElementById('card-container');
   const categoryContainer = document.getElementById('category-container');
@@ -87,22 +86,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render categories
   const showCategory = (categories) => {
-   
+    // preserve existing heading if present
+    const heading = categoryContainer.querySelector('h2');
     categoryContainer.innerHTML = '';
-    const allSpan = document.createElement('span');
-    
-    allSpan.className = 'category-btn hover:bg-green-500 hover:text-white p-1 cursor-pointer rounded inline-block';
-    allSpan.dataset.id = 'all';
-    allSpan.textContent = 'All Trees';
-    allSpan.classList.add('bg-green-700','text-white');
-    categoryContainer.appendChild(allSpan);
+
+    if (heading) categoryContainer.appendChild(heading);
+
+    // create/clear a wrapper for category buttons (responsive: horizontal pills on small screens)
+    let listWrapper = categoryContainer.querySelector('.category-list');
+    if (!listWrapper) {
+      listWrapper = document.createElement('div');
+      listWrapper.className = 'category-list flex md:flex-col gap-2 mt-3 overflow-x-auto md:overflow-visible whitespace-nowrap';
+      categoryContainer.appendChild(listWrapper);
+    } else {
+      listWrapper.innerHTML = '';
+    }
+
+    const makePill = (id, text, isPrimary = false) => {
+      const span = document.createElement('span');
+      // Primary (selected) shows green text + bold. Others are neutral but get a green background on hover.
+      span.className = `category-btn inline-block px-3 py-1 rounded cursor-pointer mr-2 md:mr-0 whitespace-nowrap ${isPrimary ? 'text-green-700 font-semibold' : 'text-gray-700 hover:bg-green-600 hover:text-white'}`;
+      span.dataset.id = id;
+      span.textContent = text;
+      return span;
+    };
+
+    listWrapper.appendChild(makePill('all', 'All Trees', true));
 
     categories.forEach(category => {
-      const span = document.createElement('span');
-      span.className = 'category-btn hover:bg-green-500 hover:text-white p-1 cursor-pointer rounded inline-block';
-      span.dataset.id = category.id ?? category.category_id ?? category._id ?? category.id;
-      span.textContent = category.category_name ?? category.name ?? 'Unknown';
-      categoryContainer.appendChild(span);
+      const cid = category.id ?? category.category_id ?? category._id ?? category.id;
+      const cname = category.category_name ?? category.name ?? 'Unknown';
+      listWrapper.appendChild(makePill(cid, cname));
     });
   };
 
@@ -110,9 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
   categoryContainer.addEventListener('click', (e) => {
     const btn = e.target.closest('.category-btn');
     if (!btn) return;
-    // remove active only from category buttons inside the container
-    categoryContainer.querySelectorAll('.category-btn').forEach(s => s.classList.remove('bg-green-700','text-white'));
-    btn.classList.add('bg-green-700','text-white');
+    // remove active styling from all category buttons, then mark clicked as active (green text + bold)
+    categoryContainer.querySelectorAll('.category-btn').forEach(s => s.classList.remove('text-green-700','font-semibold','bg-green-700','text-white'));
+    btn.classList.add('text-green-700','font-semibold');
 
     const categoryId = btn.dataset.id;
     if (!categoryId || categoryId === 'all') {
@@ -141,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <button class="btn btn-outline text-green-800 border-none rounded-4xl bg-[#F0FDF4]">${plant.category || ''}</button>
               <span class="font-bold text-lg tree-price"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${plant.price ?? 0}</span>
             </div>
-            <button class="btn bg-green-700 hover:bg-green-500 rounded-3xl text-white cart-btn">Add to Cart</button>
+            <button class="btn bg-green-700 rounded-3xl text-white cart-btn">Add to Cart</button>
           </div>
         </div>
       `;
@@ -234,13 +248,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalImage) modalImage.src = img;
 
     if (modalDesc) {
-      
+      // render description and price on separate lines; escape user data
       const descHtml = desc ? `<div>${escapeHtml(desc)}</div>` : '';
       const priceHtml = priceVal ? `<div class="mt-2 text-lg font-semibold"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${escapeHtml(priceVal)}</div>` : '';
       modalDesc.innerHTML = descHtml + priceHtml;
     }
 
-  
+    // ensure dialog is visually centered (works whether showModal supported or not)
     if (modal) {
       modal.style.position = 'fixed';
       modal.style.left = '50%';
