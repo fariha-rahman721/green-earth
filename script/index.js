@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <button class="btn btn-outline text-green-800 border-none rounded-4xl bg-[#F0FDF4]">${plant.category || ''}</button>
               <span class="font-bold text-lg tree-price"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${plant.price ?? 0}</span>
             </div>
-            <button class="btn bg-green-700 rounded-3xl text-white cart-btn">Add to Cart</button>
+            <button class="btn bg-green-700 hover:bg-green-500 rounded-3xl text-white cart-btn">Add to Cart</button>
           </div>
         </div>
       `;
