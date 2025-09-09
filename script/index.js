@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cartHtml += `
         <div class="cart-item flex justify-between items-center bg-[#F0FDF4] p-4 mb-2 rounded-lg" data-name="${name}">
           <div>
-            <span class="text-xl font-semibold">${name}</span>
+            <span class="text-lg font-semibold">${name}</span>
             <p><i class="fa-solid fa-bangladeshi-taka-sign"></i>${item.price.toFixed(2)} &times; ${item.quantity}</p>
           </div>
           <div>
@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Load categories
   const loadCategory = () => {
+    
     fetch("https://openapi.programming-hero.com/api/categories")
       .then((res) => res.json())
       .then((data) => {
@@ -86,10 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render categories
   const showCategory = (categories) => {
-    // keep a clean container and add "All Trees" first
+   
     categoryContainer.innerHTML = '';
     const allSpan = document.createElement('span');
-    allSpan.className = 'category-btn hover:bg-green-700 hover:text-white p-1 cursor-pointer rounded inline-block';
+    
+    allSpan.className = 'category-btn hover:bg-green-400 hover:text-white p-1 cursor-pointer rounded inline-block';
     allSpan.dataset.id = 'all';
     allSpan.textContent = 'All Trees';
     allSpan.classList.add('bg-green-700','text-white');
@@ -130,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     container.innerHTML = "";
     plants.forEach(plant => {
       container.innerHTML += `
-        <div class="card shadow-sm bg-white card-body space-y-2 ">
+        <div class="card shadow-sm bg-white card-body space-y-2 p-2">
           <figure><img class="w-full h-48 object-cover" src="${plant.image}" alt="${plant.name}" /></figure>
           <div class="card-body">
             <h2 class="card-title open-modal cursor-pointer" data-title="${plant.name}" data-image="${plant.image}" data-desc="${(plant.description||'')}" data-price="${plant.price ?? 0}">${plant.name}</h2>
@@ -148,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch plants by categoryId (fixed variable usage)
   const loadPlantsByCategory = (categoryId) => {
+    
     // ensure categoryId is provided
     if (!categoryId) return;
     fetch(`https://openapi.programming-hero.com/api/category/${categoryId}`)
@@ -158,9 +161,27 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(err => console.error('Error fetching plants:', err));
   };
+   
+  
+
+// spinner function
+
+    const manageSpinner = (status) => {
+        if(status === true){
+            document.getElementById("spinner").classList.remove("hidden");
+            document.getElementById("card-container").classList.add("hidden");
+
+        } else {
+            document.getElementById("spinner").classList.add("hidden");
+            document.getElementById("card-container").classList.remove("hidden");
+        }
+    }
+
+
 
   // Load all plant cards
   const loadCards = () => {
+    manageSpinner(true)
     fetch("https://openapi.programming-hero.com/api/plants")
       .then((res) => res.json())
       .then((data) => {
@@ -171,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const showCard = (cards) => {
+    
     const cardContainerLocal = document.getElementById('card-container');
     cardContainerLocal.innerHTML = "";
     cards.forEach(card => {
@@ -189,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
     });
+    manageSpinner(false)
   };
 
   // Modal elements (now inside DOMContentLoaded)
