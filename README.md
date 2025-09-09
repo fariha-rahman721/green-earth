@@ -16,7 +16,7 @@ In summary, forEach() is for iteration and side effects (no return value). map()
 ## Question-3: What are arrow functions in ES6?
 ## Ans: 
 Arrow functions, introduced in ECMAScript 2015 (ES6), provide a concise syntax for writing function expressions in JavaScript. They offer a shorter and more elegant way to define functions compared to traditional function declarations or expressions.
-##### Key characteristics of arrow functions:
+#### Key characteristics of arrow functions:
 Concise Syntax: They omit the function keyword and use an arrow (=>) to separate parameters from the function body.
 Implicit Return: For single-expression arrow functions, the curly braces {} and the return keyword can be omitted, as the expression's result is automatically returned.
 Lexical this Binding: This is a significant difference from traditional functions. Arrow functions do not create their own this context; instead, they inherit this from the surrounding (lexical) scope where they are defined. This simplifies handling this in callbacks and event handlers.
@@ -32,9 +32,9 @@ Maintaining this context: Their lexical this binding simplifies scenarios where 
 ## Question-4: How does destructuring assignment work in ES6?
 ## Ans: 
 Destructuring assignment in ES6 is a powerful syntax that allows you to unpack values from arrays or properties from objects into distinct variables. It provides a more concise and readable way to extract data, avoiding the need to access each value by its index or key individually.
-##### Array Destructuring
+#### Array Destructuring
 Array destructuring uses a syntax that mimics array literals on the left-hand side of an assignment. The variables are assigned to elements of the array based on their position.
-##### Object Destructuring
+#### Object Destructuring
 Object destructuring uses a syntax that mimics object literals on the left-hand side of an assignment. The variables are assigned to properties of the object based on their key.
 
 ## Question-5: Explain template literals in ES6. How are they different from string concatenation?
