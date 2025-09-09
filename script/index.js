@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     categoryContainer.innerHTML = '';
     const allSpan = document.createElement('span');
     
-    allSpan.className = 'category-btn hover:bg-green-400 hover:text-white p-1 cursor-pointer rounded inline-block';
+    allSpan.className = 'category-btn hover:bg-green-500 hover:text-white p-1 cursor-pointer rounded inline-block';
     allSpan.dataset.id = 'all';
     allSpan.textContent = 'All Trees';
     allSpan.classList.add('bg-green-700','text-white');
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     categories.forEach(category => {
       const span = document.createElement('span');
-      span.className = 'category-btn hover:bg-green-700 hover:text-white p-1 cursor-pointer rounded inline-block';
+      span.className = 'category-btn hover:bg-green-500 hover:text-white p-1 cursor-pointer rounded inline-block';
       span.dataset.id = category.id ?? category.category_id ?? category._id ?? category.id;
       span.textContent = category.category_name ?? category.name ?? 'Unknown';
       categoryContainer.appendChild(span);
@@ -234,13 +234,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalImage) modalImage.src = img;
 
     if (modalDesc) {
-      // render description and price on separate lines; escape user data
+      
       const descHtml = desc ? `<div>${escapeHtml(desc)}</div>` : '';
       const priceHtml = priceVal ? `<div class="mt-2 text-lg font-semibold"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${escapeHtml(priceVal)}</div>` : '';
       modalDesc.innerHTML = descHtml + priceHtml;
     }
 
-    // ensure dialog is visually centered (works whether showModal supported or not)
+  
     if (modal) {
       modal.style.position = 'fixed';
       modal.style.left = '50%';
